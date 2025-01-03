@@ -1,0 +1,3320 @@
+#LyX 2.3 created this file. For more info see http://www.lyx.org/
+\lyxformat 544
+\begin_document
+\begin_header
+\save_transient_properties true
+\origin unavailable
+\textclass article
+\begin_preamble
+\date{}
+\end_preamble
+\use_default_options true
+\maintain_unincluded_children false
+\language english
+\language_package default
+\inputencoding auto
+\fontencoding global
+\font_roman "lmodern" "default"
+\font_sans "default" "default"
+\font_typewriter "default" "default"
+\font_math "auto" "auto"
+\font_default_family rmdefault
+\use_non_tex_fonts false
+\font_sc false
+\font_osf false
+\font_sf_scale 100 100
+\font_tt_scale 100 100
+\use_microtype false
+\use_dash_ligatures true
+\graphics default
+\default_output_format default
+\output_sync 0
+\bibtex_command default
+\index_command default
+\float_placement h
+\paperfontsize 11
+\spacing onehalf
+\use_hyperref true
+\pdf_bookmarks true
+\pdf_bookmarksnumbered false
+\pdf_bookmarksopen false
+\pdf_bookmarksopenlevel 1
+\pdf_breaklinks false
+\pdf_pdfborder true
+\pdf_colorlinks false
+\pdf_backref false
+\pdf_pdfusetitle true
+\papersize default
+\use_geometry true
+\use_package amsmath 1
+\use_package amssymb 1
+\use_package cancel 1
+\use_package esint 1
+\use_package mathdots 1
+\use_package mathtools 1
+\use_package mhchem 1
+\use_package stackrel 1
+\use_package stmaryrd 1
+\use_package undertilde 1
+\cite_engine natbib
+\cite_engine_type authoryear
+\biblio_style plainnat
+\use_bibtopic false
+\use_indices false
+\paperorientation portrait
+\suppress_date false
+\justification true
+\use_refstyle 1
+\use_minted 0
+\index Index
+\shortcut idx
+\color #008000
+\end_index
+\leftmargin 1in
+\topmargin 1in
+\rightmargin 1in
+\bottommargin 1in
+\secnumdepth 3
+\tocdepth 3
+\paragraph_separation skip
+\defskip medskip
+\is_math_indent 0
+\math_numbering_side default
+\quotes_style english
+\dynamic_quotes 0
+\papercolumns 1
+\papersides 1
+\paperpagestyle default
+\tracking_changes false
+\output_changes false
+\html_math_output 0
+\html_css_as_file 0
+\html_be_strict false
+\end_header
+
+\begin_body
+
+\begin_layout Title
+The source of bias in unit-context models
+\begin_inset Foot
+status collapsed
+
+\begin_layout Plain Layout
+The author acknowledges financial support from the World Bank.
+ 
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Author
+Paul Corral Rodas
+\begin_inset Foot
+status collapsed
+
+\begin_layout Plain Layout
+The World Bank Group - Poverty and Equity Global Practice (pcorralrodas@worldban
+k.org)
+\end_layout
+
+\end_inset
+
+ 
+\end_layout
+
+\begin_layout Date
+
+\end_layout
+
+\begin_layout Abstract
+This paper explores why poverty estimates from unit-context models exhibit
+ systematic bias.
+ The analysis demonstrates that this bias stems from these models' inability
+ to fully capture between-household variation in welfare, as they rely solely
+ on covariates aggregated at geographic levels.
+ Through model-based simulations, we show that the bias in unit-context
+ models is minimized when the share of total variance explained by the model
+ matches the true variance of welfare at the area level.
+\end_layout
+
+\begin_layout Abstract
+\begin_inset VSpace vfill
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+
+\series bold
+Key words:
+\series default
+ Small area estimation; poverty mapping; satellite imagery
+\end_layout
+
+\begin_layout Standard
+
+\series bold
+JEL classification: 
+\series default
+C13; C55; C87; C15
+\begin_inset Newpage pagebreak
+\end_inset
+
+
+\end_layout
+
+\begin_layout Section
+Introduction
+\end_layout
+
+\begin_layout Standard
+Household surveys aimed at gauging a population's living standards often
+ lack representativeness beyond broad regions or specific population demographic
+s.
+ Additionally, there is a risk that many pertinent locations or groups may
+ be omitted from these surveys.
+ However, detailed information on poverty is crucial for effectively targeting
+ resources to alleviate it.
+\end_layout
+
+\begin_layout Standard
+The demand for disaggregated statistics necessitates the use of indirect
+ techniques, which integrate supplementary data from censuses, registries,
+ or larger-scale surveys to generate sufficiently precise statistics for
+ granular populations.
+ Small area estimation encompasses a wide spectrum of statistical methods
+ aimed at enhancing the precision of estimates in cases where household
+ surveys lack sufficient sample size to achieve the desired level of accuracy.
+ Among these methods, model-based approaches leverage the concept of "borrowing
+ strength" from larger datasets or auxiliary information across different
+ areas through models that establish connections between them (such as regressio
+n-type techniques), resulting in indirect estimators (
+\begin_inset CommandInset citation
+LatexCommand citealt
+key "molina2010small"
+literal "false"
+
+\end_inset
+
+).
+ Most model-based techniques can be classified into two main groups: those
+ based on unit-level models and those based on area-level models.
+ The former are typically employed when data on individual units (e.g., households
+) are accessible, while the latter are utilized in situations where only
+ aggregate data at the area level (e.g., area means) are available, as outlined
+ by 
+\begin_inset CommandInset citation
+LatexCommand citet
+key "fay1979estimates"
+literal "false"
+
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Standard
+Unit-level models are generally unsuitable when survey and census data correspon
+d to different years — an issue common in developing countries where censuses
+ and surveys are conducted infrequently.
+ In contrast, area-level models offer a viable alternative.
+ These models rely on linear functional forms but perform estimation and
+ prediction using only aggregate data for the geographic entities of interest
+ (
+\begin_inset CommandInset citation
+LatexCommand citet
+key "fay1979estimates"
+literal "false"
+
+\end_inset
+
+; 
+\begin_inset CommandInset citation
+LatexCommand citet
+key "torabi2014small"
+literal "false"
+
+\end_inset
+
+).
+ Another approach, unit-context models, features an estimation stage where
+ household-level measures are modeled solely as a linear function of area-level
+ characteristics (
+\begin_inset CommandInset citation
+LatexCommand citet
+key "nguyen2012method,lange2018small,masaki2020small"
+literal "false"
+
+\end_inset
+
+).
+ 
+\end_layout
+
+\begin_layout Standard
+Unit-context models, however, have been discouraged due to the method resulting
+ in biased estimates.
+ 
+\begin_inset CommandInset citation
+LatexCommand citeauthor
+key "corral2022guidelines"
+literal "false"
+
+\end_inset
+
+ (2022) show that the method is unable to fully replicate the welfare distributi
+on which results in biased estimates.
+ For a practical example of the resulting bias, see 
+\begin_inset CommandInset citation
+LatexCommand citet
+key "edochie2024small"
+literal "false"
+
+\end_inset
+
+.
+ In that work the authors present the aggregated estimates at the geographic
+ level of representativeness and it is evident that across many areas the
+ differences to direct estimates are considerable (see Figures 7 to 9).
+ Moreover, it can be seen that the majority of the estimates fall above
+ the 45 degree line, suggesting an upward bias in the estimates.
+ 
+\end_layout
+
+\begin_layout Standard
+A key question is what is the source of the bias in unit-context models.
+ In this note, the simulations implemented by 
+\begin_inset CommandInset citation
+LatexCommand citeauthor
+key "corral2022guidelines"
+literal "false"
+
+\end_inset
+
+ (2022) are used to study the source of the method's bias.
+ The bias studied here, goes beyond the potential bias of the method noted
+ in 
+\begin_inset CommandInset citation
+LatexCommand citeauthor
+key "rodas2021pull"
+literal "false"
+
+\end_inset
+
+ (2021) which was related to a sampling issue.
+ It is related to the transformation bias noted by 
+\begin_inset CommandInset citation
+LatexCommand citet
+key "wurz2022estimating"
+literal "false"
+
+\end_inset
+
+.
+ These authors attempt to address the same issue as 
+\begin_inset CommandInset citation
+LatexCommand citet
+key "nguyen2012method"
+literal "false"
+
+\end_inset
+
+ of not having auxiliary microdata and relying on aggregate population-level
+ auxiliary information.
+ 
+\begin_inset CommandInset citation
+LatexCommand citet
+key "wurz2022estimating"
+literal "false"
+
+\end_inset
+
+ note that relying on aggregate level data to model household-level welfare
+ leads to first-order bias from back-transformation and second-order bias
+ from using aggregate data.
+ They note that using aggregate means instead of individual values introduces
+ additional bias due to the convexity of the back-transformation function.
+ 
+\end_layout
+
+\begin_layout Standard
+The bias studied here is related to the poor model explanatory power of
+ unit-context models.
+ Because unit-context methods model transformed household-level welfare
+ as a linear function of area-level covariates these are unable to adequately
+ account for between household variations in welfare.
+ The simulations undertaken here show, that across the welfare distribution,
+ areas where bias is lowest for these models are those where the ratio of
+ total variance explained by the predicted welfare is closest to 1.
+ 
+\end_layout
+
+\begin_layout Standard
+The note proceeds to present the assumed model for unit-level small area
+ estimation and provides a discussion on why not accounting for variance
+ leads to biased estimates of poverty.
+ The method for creating simulated data is illustrated, followed by the
+ results.
+ Finally, conclusions are presented.
+\end_layout
+
+\begin_layout Section
+Small area estimation 
+\begin_inset CommandInset label
+LatexCommand label
+name "sec: method"
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+The model based small area estimation methods described in this chapter,
+ are dependent on an assumed model.
+ The nested error model used for small area was originally proposed by Battese,
+ Harter and Fuller 
+\begin_inset CommandInset citation
+LatexCommand citeyearpar
+key "battese1988asa"
+literal "true"
+
+\end_inset
+
+ to produce county-level corn and soybean crop area estimates for the American
+ state of Iowa.
+ For the estimation of poverty and welfare, 
+\begin_inset CommandInset citation
+LatexCommand citet
+key "molina2010small"
+literal "false"
+
+\end_inset
+
+ and 
+\begin_inset CommandInset citation
+LatexCommand citet
+key "elbers2003micro"
+literal "false"
+
+\end_inset
+
+ assume that the transformed welfare 
+\begin_inset Formula $y_{ah}$
+\end_inset
+
+ for each household 
+\begin_inset Formula $h$
+\end_inset
+
+ within each location 
+\begin_inset Formula $a$
+\end_inset
+
+ in the population is linearly related to a 
+\begin_inset Formula $1\times K$
+\end_inset
+
+ vector of characteristics (or correlates) 
+\begin_inset Formula $x_{ah}$
+\end_inset
+
+ for that household, according to the nested error model: 
+\begin_inset Formula 
+\begin{equation}
+y_{ah}=x_{ah}\beta+\eta_{a}+e_{ah},\:h=1,\ldots,N_{c},\,a=1,\ldots,A,\label{eq:1-1-1}
+\end{equation}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+where 
+\begin_inset Formula $\eta_{a}$
+\end_inset
+
+ and 
+\begin_inset Formula $e_{ah}$
+\end_inset
+
+ are respectively location and household-specific idiosyncratic errors,
+ assumed to be independent from each other, following: 
+\begin_inset Formula 
+\[
+\eta_{a}\stackrel{iid}{\sim}N\left(0,\sigma_{\eta}^{2}\right),\:e_{ah}\stackrel{iid}{\sim}N\left(0,\sigma_{e}^{2}\right)
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+where the variances 
+\begin_inset Formula $\sigma_{\eta}^{2}$
+\end_inset
+
+ and 
+\begin_inset Formula $\sigma_{e}^{2}$
+\end_inset
+
+ are unknown.
+ Here, 
+\begin_inset Formula $A$
+\end_inset
+
+ is the number of locations in which the population is divided and 
+\begin_inset Formula $N_{a}$
+\end_inset
+
+ is the number of households in location 
+\begin_inset Formula $a$
+\end_inset
+
+, for 
+\begin_inset Formula $a=1,\ldots,A$
+\end_inset
+
+, and 
+\begin_inset Formula $n_{a}$
+\end_inset
+
+ is the sample size from area 
+\begin_inset Formula $a$
+\end_inset
+
+.
+ Finally, 
+\begin_inset Formula $\beta$
+\end_inset
+
+ is the 
+\begin_inset Formula $K\times1$
+\end_inset
+
+ vector of regression coefficients.
+\end_layout
+
+\begin_layout Standard
+One of the main assumptions is that errors are normally distributed.
+ The assumption does not necessarily imply that welfare (the dependent variable)
+ is normally distributed, but instead implies that, conditional on the observed
+ characteristics, the residuals are normally distributed.
+ Under the assumed model, variation in welfare across the population is
+ determined by three components: the variation in household characteristics,
+ the variation in household specific unobservables, and the variation in
+ location specific effects.
+ Within any given area, the welfare distribution is determined by the variation
+ in household specific characteristics and household specific errors.
+ 
+\end_layout
+
+\begin_layout Standard
+To obtain estimates, the first step is to fit the model 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "eq:1-1-1"
+plural "false"
+caps "false"
+noprefix "false"
+
+\end_inset
+
+ via any method providing consistent estimators.
+ This yields the vector of parameter estimates: 
+\begin_inset Formula 
+\[
+\hat{\theta}_{0}=\left(\hat{\beta}_{0},\hat{\sigma}_{\eta0}^{2},\hat{\sigma}_{e0}^{2}\right).
+\]
+
+\end_inset
+
+Usual fitting methods under this approach are maximum likelihood (ML) or
+ restricted maximum likelihood (REML), both based on the normal likelihood,
+ and H3 method, which does not require to specify a distribution.
+ The empirical best (EB) area effects for the model are estimated from:
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\[
+\hat{\eta}_{a0}=\hat{\gamma}_{a}\left(\bar{y}_{a}-\bar{x}_{a}\hat{\beta}_{0}\right),\quad\hat{\gamma}_{a}=\frac{\hat{\sigma}_{\eta0}^{2}}{\hat{\sigma}_{\eta0}^{2}+\hat{\sigma}_{e0}^{2}/n_{a}}.
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+The variance for the area effects are given by:
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\[
+\hat{\sigma}_{\eta_{a}}=\sigma_{\eta0}^{2}(1-\hat{\gamma}_{a})
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Because we assume normally distributed errors, the probability of being
+ poor for any household 
+\begin_inset Formula $h$
+\end_inset
+
+ in area 
+\begin_inset Formula $a$
+\end_inset
+
+ is entirely dependent on its expected welfare, 
+\begin_inset Formula $x_{h}\hat{β},$
+\end_inset
+
+ and its error, 
+\begin_inset Formula $\hat{e}_{h}$
+\end_inset
+
+, and 
+\begin_inset Formula $\hat{\eta}_{a}$
+\end_inset
+
+ which are assumed to follow 
+\begin_inset Formula $e_{h}\sim N(0,σ_{e}^{2})$
+\end_inset
+
+ and 
+\begin_inset Formula $\eta_{a}\sim N\left(\hat{\eta}_{a0},\hat{\sigma}_{\eta0}^{2}(1-\hat{\gamma}_{a})\right)$
+\end_inset
+
+.
+ 
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\begin{equation}
+Prob\:poor_{ha}=Φ\,\left(\frac{z-x_{ha}\hat{β}-\hat{\eta}_{a0}}{\sqrt{\left(\hat{\sigma}_{\eta_{a}}^{2}+\hat{σ}{}_{e}^{2}\right)}}\right)\label{eq:cum prob}
+\end{equation}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+where 
+\begin_inset Formula $z$
+\end_inset
+
+ is the transformed poverty threshold.
+ The poverty rate for the area is given by the average probability of being
+ poor across households.
+ Within a given area, the only thing that varies across households are the
+ covariates.
+\end_layout
+
+\begin_layout Standard
+Unit-context models are an approximation to the assumed underlying data
+ generating process from Eq.
+ 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "eq:1-1-1"
+plural "false"
+caps "false"
+noprefix "false"
+
+\end_inset
+
+.
+ Originally introduced by 
+\begin_inset CommandInset citation
+LatexCommand citet
+key "nguyen2012method"
+literal "false"
+
+\end_inset
+
+, and then re-introduced by 
+\begin_inset CommandInset citation
+LatexCommand citet
+key "lange2018small"
+literal "false"
+
+\end_inset
+
+ and modified by 
+\begin_inset CommandInset citation
+LatexCommand citet
+key "masaki2020small"
+literal "false"
+
+\end_inset
+
+.
+ Unit-context versions (i.e.
+ those with aggregated covariates only) are defined as models where household-le
+vel welfare is modeled using only area and sub-area level characteristics.
+ 
+\begin_inset CommandInset citation
+LatexCommand citet
+key "masaki2020small"
+literal "false"
+
+\end_inset
+
+ suggest that the model should include characteristics that explain variability
+ at a geographic level below the one for which we aim to estimate poverty.
+ A possible unit-context model follows:
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\[
+y_{sach}=z_{sac}\alpha+t_{sc}\omega+g_{s}\lambda+\eta_{sc}+\varepsilon_{sach}
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+where 
+\begin_inset Formula $s$
+\end_inset
+
+ is used for an aggregation level that is over the target areas (a super-area)
+ and 
+\begin_inset Formula $c$
+\end_inset
+
+ is used for subareas, e.g., clusters.
+ Hence, 
+\begin_inset Formula $z_{sac}$
+\end_inset
+
+ contains subarea-level characteristics, 
+\begin_inset Formula $t_{sa}$
+\end_inset
+
+ includes area-level characteristics and 
+\begin_inset Formula $g_{s}$
+\end_inset
+
+ is composed of super-area-level characteristics (which may include super-area
+ fixed effects).
+ The regression coefficients across these levels are respectively denoted
+ 
+\begin_inset Formula $\alpha,$
+\end_inset
+
+ 
+\begin_inset Formula $\omega$
+\end_inset
+
+ and 
+\begin_inset Formula $\lambda$
+\end_inset
+
+.
+ The random effects, 
+\begin_inset Formula $\eta_{sa}$
+\end_inset
+
+, are specified in this model at the area level, same as in Eq.
+ 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "eq:1-1-1"
+plural "false"
+caps "false"
+noprefix "false"
+
+\end_inset
+
+.
+ Note that, among the set of covariates in this model, none is at the unit-level
+; covariates only vary at the subarea-level and above.
+ 
+\end_layout
+
+\begin_layout Standard
+A key feature of unit-context models is that the linear fit only explains
+ a relatively small amount of the total variance of the dependent variable,
+ with 
+\begin_inset Formula $R^{2}$
+\end_inset
+
+ that range between 0.15 to 0.25 in most instances.
+ The variance explained is, understandably, less that the household-level
+ model.
+ The variance that is not explained due to the exclusion of household-level
+ covariates is captured in 
+\begin_inset Formula $\sigma_{\eta}^{2}$
+\end_inset
+
+ and 
+\begin_inset Formula $\sigma_{e}^{2}$
+\end_inset
+
+.
+ At the national level this leads to the variance of the linear fit, plus
+ 
+\begin_inset Formula $\sigma_{\eta}^{2}$
+\end_inset
+
+ and 
+\begin_inset Formula $\sigma_{e}^{2}$
+\end_inset
+
+ will be approximately equal to 
+\begin_inset Formula $\mathrm{var\mathit{\left[y\right]}.}$
+\end_inset
+
+This is true for unit-context and unit-level models.
+ 
+\end_layout
+
+\begin_layout Standard
+At the area level, however, there will be differences and these will lead
+ to bias.
+ To see this, assume welfare for a given area follows a log-normal distribution.
+ Also assume that the linear fit of Eq.
+ 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "eq:1-1-1"
+plural "false"
+caps "false"
+noprefix "false"
+
+\end_inset
+
+ is normally distributed.
+ Then the poverty rate for a given area under these assumptions is:
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\[
+FGT_{0a}=Φ\,\left(\frac{\ln z-\bar{x}\hat{\beta}-\hat{\eta}_{a}}{\sqrt{\mathrm{var}\mathit{\left[x_{h}\hat{\beta}\right]}+\hat{\sigma}_{\eta a}^{2}+\hat{\sigma}_{e}^{2}}}\right)
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Because the use of EB ensures that for every sampled area 
+\begin_inset Formula $a$
+\end_inset
+
+, 
+\begin_inset Formula $E\left[x\hat{\beta}+\hat{\eta}_{a}\right]=E\left[y_{a}\right]$
+\end_inset
+
+,
+\begin_inset Foot
+status collapsed
+
+\begin_layout Plain Layout
+Recall that 
+\begin_inset Formula $y_{hc}$
+\end_inset
+
+ is the transformed welfare.
+\end_layout
+
+\end_inset
+
+ then at the area level bias in poverty arises because:
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\begin{equation}
+\mathrm{var}\mathit{\left[x_{h}\hat{\beta}\right]}+\hat{\sigma}_{\eta a}^{2}+\hat{\sigma}_{e}^{2}\neq\mathrm{var\left[\mathit{y_{a}}\right]}.\label{eq:variance}
+\end{equation}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+And because the variance of the linear fit of unit-context models is smaller,
+ unit-context models are more likely to yield biased estimates of poverty.
+ 
+\end_layout
+
+\begin_layout Standard
+In the following section we present a model-based simulation to illustrate
+ how Eq.
+ 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "eq:variance"
+plural "false"
+caps "false"
+noprefix "false"
+
+\end_inset
+
+ is related to biased estimates at the area level.
+ 
+\end_layout
+
+\begin_layout Section
+Simulation data
+\begin_inset CommandInset label
+LatexCommand label
+name "sec:data"
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Data is generated for the simulations following the assumed model from Eq.
+ 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "eq:1-1-1"
+plural "false"
+caps "false"
+noprefix "false"
+
+\end_inset
+
+.
+\begin_inset Foot
+status collapsed
+
+\begin_layout Plain Layout
+Data is simulated following the same approach as 
+\begin_inset CommandInset citation
+LatexCommand citet
+key "corral2022guidelines"
+literal "false"
+
+\end_inset
+
+.
+ The write-up here is also borrowed from 
+\begin_inset CommandInset citation
+LatexCommand citet
+key "corral2022guidelines"
+literal "false"
+
+\end_inset
+
+.
+\end_layout
+
+\end_inset
+
+ The population size for the simulated data is 
+\begin_inset Formula $N=500,000$
+\end_inset
+
+, and the observations are allocated among 
+\begin_inset Formula $A=100$
+\end_inset
+
+ areas 
+\begin_inset Formula $\left(a=1,\ldots,A\right)$
+\end_inset
+
+.
+ Within each area 
+\begin_inset Formula $a$
+\end_inset
+
+, observations are uniformly allocated over 
+\begin_inset Formula $c=20$
+\end_inset
+
+ clusters 
+\begin_inset Formula $\left(c_{a}=1,\ldots,C_{a}\right)$
+\end_inset
+
+.
+ Each cluster 
+\begin_inset Formula $c$
+\end_inset
+
+ consists of 
+\begin_inset Formula $N_{ac}=250$
+\end_inset
+
+ observations.
+ In this simulation experiment, a simple random sample of 
+\begin_inset Formula $n_{ac}=10$
+\end_inset
+
+ households per cluster is taken, and this sample is kept fixed across simulatio
+ns.
+ Using a sample, it is possible to compare with estimators based on FH model
+ (see 
+\begin_inset CommandInset citation
+LatexCommand citet
+key "corral2022guidelines,molina2022estimation,rao2015small,fay1979estimates"
+literal "false"
+
+\end_inset
+
+).
+ The model that generates the population data contains both cluster and
+ area effects.
+ Cluster effects are simulated as 
+\begin_inset Formula $\eta_{ac}\stackrel{iid}{\sim}N\left(0,0.1\right)$
+\end_inset
+
+, area effects as 
+\begin_inset Formula $\eta_{a}\stackrel{iid}{\sim}N\left(0,0.15^{2}\right)$
+\end_inset
+
+ and household specific residuals as 
+\begin_inset Formula $e_{ach}\overset{iid}{{\sim}}N\left(0,0.5^{2}\right)$
+\end_inset
+
+, where 
+\begin_inset Formula $h=1,\ldots,N_{ac}$
+\end_inset
+
+, 
+\begin_inset Formula $c=1,\ldots,C_{a}$
+\end_inset
+
+, 
+\begin_inset Formula $a=1,\ldots,A$
+\end_inset
+
+.
+ 
+\end_layout
+
+\begin_layout Enumerate
+\begin_inset Formula $x_{1}$
+\end_inset
+
+ is a binary variable, taking value 1 when a random uniform number between
+ 0 and 1, at the household-level, is less than or equal to 
+\begin_inset Formula $0.3+0.5\frac{a}{40}+0.2\frac{c}{10}$
+\end_inset
+
+.
+ 
+\end_layout
+
+\begin_layout Enumerate
+\begin_inset Formula $x_{2}$
+\end_inset
+
+ is a binary variable, taking value 1 when a random uniform number between
+ 0 and 1, at the household-level, is less than or equal to 
+\begin_inset Formula $0.2$
+\end_inset
+
+.
+ 
+\end_layout
+
+\begin_layout Enumerate
+\begin_inset Formula $x_{3}$
+\end_inset
+
+ is a binary variable, taking value 1 when a random uniform number between
+ 0 and 1, at the household-level, is less than or equal to 
+\begin_inset Formula $0.1+0.2\frac{a}{40}$
+\end_inset
+
+.
+ 
+\end_layout
+
+\begin_layout Enumerate
+\begin_inset Formula $x_{4}$
+\end_inset
+
+ is a binary variable, taking value 1 when a random uniform number between
+ 0 and 1, at the household-level, is less than or equal to 
+\begin_inset Formula $0.5+0.3\frac{a}{40}+0.1\frac{c}{10}$
+\end_inset
+
+ 
+\end_layout
+
+\begin_layout Enumerate
+\begin_inset Formula $x_{5}$
+\end_inset
+
+ is a discrete variable, simulated as the rounded integer value of the maximum
+ between 1 and a random Poisson variable with mean 
+\begin_inset Formula $\lambda=3\left(1-0.1\frac{a}{40}\right)$
+\end_inset
+
+.
+ 
+\end_layout
+
+\begin_layout Enumerate
+\begin_inset Formula $x_{6}$
+\end_inset
+
+ is a binary variable, taking value 1 when a random uniform value between
+ 0 and 1 is less than or equal to 0.4.
+ Note that the values of 
+\begin_inset Formula $x_{6}$
+\end_inset
+
+ are not related to the area's label.
+ 
+\end_layout
+
+\begin_layout Enumerate
+\begin_inset Formula $x_{7}$
+\end_inset
+
+ is generated from a random Poisson variable with mean 
+\begin_inset Formula $\lambda=3\left(\frac{c}{20}-\frac{a}{100}+u\right)$
+\end_inset
+
+, where 
+\begin_inset Formula $u$
+\end_inset
+
+ is a random uniform value between 0 and 1.
+ 
+\end_layout
+
+\begin_layout Standard
+In this experiment, we take a grid of 99 poverty thresholds, corresponding
+ to the 99 percentiles of the very first population generated.
+ In total, 1,000 populations are generated.
+ In each of the 1,000 populations, the following quantities are computed
+ in every area for each of the 99 poverty lines: 
+\end_layout
+
+\begin_layout Enumerate
+True poverty indicators 
+\begin_inset Formula $\tau_{a}$
+\end_inset
+
+, using the 
+\begin_inset Quotes eld
+\end_inset
+
+census
+\begin_inset Quotes erd
+\end_inset
+
+.
+ 
+\end_layout
+
+\begin_layout Enumerate
+CensusEB estimators 
+\begin_inset Formula $\hat{\tau}_{a}^{CEB_{a}}$
+\end_inset
+
+ presented in 
+\begin_inset CommandInset citation
+LatexCommand citet
+key "rodas2021pull"
+literal "false"
+
+\end_inset
+
+, based on a nested-error model with only 
+\series bold
+area
+\series default
+ random effects and including the unit-level values of the covariates.
+ The 
+\begin_inset Formula $R^{2}$
+\end_inset
+
+ for this model is roughly 0.60.
+ 
+\end_layout
+
+\begin_layout Enumerate
+Unit-context CensusEB estimators 
+\begin_inset Formula $\hat{\tau}_{a}^{UC-CEB_{a}}$
+\end_inset
+
+ based on a nested-error model with random effects at the 
+\series bold
+area-level
+\series default
+.
+ This estimator follows the approach of Masaki et al.
+ 
+\begin_inset CommandInset citation
+LatexCommand citeyearpar
+key "masaki2020small"
+literal "false"
+
+\end_inset
+
+.
+ The 
+\begin_inset Formula $R^{2}$
+\end_inset
+
+ of the resulting model hovers around 0.17.
+ 
+\end_layout
+
+\begin_layout Standard
+The average difference between the true poverty indicator and the estimate
+ across the 1,000 simulations represent the empirical bias for each area.
+ The Stata script to replicate these simulations can be found in the appendix.
+\end_layout
+
+\begin_layout Section
+Results
+\begin_inset CommandInset label
+LatexCommand label
+name "sec:results"
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Because poverty is predicted across the 99 thresholds noted in the previous
+ section, it is possible to plot how bias across all lines and areas is
+ present.
+ The simulations presented here, train the model and predict using the same
+ data.
+ This is done in order to remove other potential sources of bias from unit-conte
+xt models, such as the potential omitted variable bias noted by 
+\begin_inset CommandInset citation
+LatexCommand citet
+key "rodas2021pull"
+literal "false"
+
+\end_inset
+
+.
+ As can be seen in Figure 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "fig:bias"
+plural "false"
+caps "false"
+noprefix "false"
+
+\end_inset
+
+, the bias of unit-context models is present across all lines, but as noted
+ by 
+\begin_inset CommandInset citation
+LatexCommand citet
+key "corral2022guidelines"
+literal "false"
+
+\end_inset
+
+ the bias is lower for some areas and for some percentiles.
+ 
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float figure
+wide false
+sideways false
+status collapsed
+
+\begin_layout Plain Layout
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+Empirical bias of poverty for CensusEB and Unit-Context small area estimation
+ 
+\begin_inset CommandInset label
+LatexCommand label
+name "fig:bias"
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\noindent
+\align center
+\begin_inset Graphics
+	filename Bias_fig1.jpg
+	lyxscale 25
+	scale 25
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+
+\size footnotesize
+Note: Simulation based on 1,000 populations generated as described in section
+ 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "sec:data"
+plural "false"
+caps "false"
+noprefix "false"
+
+\end_inset
+
+.
+ Each line corresponds to one of the 100 areas.
+ The x-axis represents the percentile on which the poverty line falls on,
+ and the y-axis is the empirical bias.
+ 
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+As argued in section 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "sec: method"
+plural "false"
+caps "false"
+noprefix "false"
+
+\end_inset
+
+, the bias arises because at the area level, the unit-context model does
+ a poor job at capturing the entire distribution's variance.
+ Table 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "tab:var"
+plural "false"
+caps "false"
+noprefix "false"
+
+\end_inset
+
+ presents the variance of the linear fit across areas.
+ The true variance ranges from 0.37 to 0.86, a similar range to the CensusEB
+ model.
+ However, the range for the unit-context model is much smaller, from 0.07
+ to 0.1.
+ Nevertheless, on average the total variance of the unit-context model matches
+ that of the true welfare and that of the CensusEB estimates (Table 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "tab:var2"
+plural "false"
+caps "false"
+noprefix "false"
+
+\end_inset
+
+).
+ This is because the model is fit at the national level and 
+\begin_inset Formula $\sigma_{\eta}^{2}$
+\end_inset
+
+ and 
+\begin_inset Formula $\sigma_{\eta}^{2}$
+\end_inset
+
+ are estimated to be much larger since the covariates capture so little
+ of the total variance.
+ Consequently, the range for the total variance of the areas is minimal.
+ Thus, in the unit-context models the larger estimates for 
+\begin_inset Formula $\sigma_{\eta}^{2}$
+\end_inset
+
+ and 
+\begin_inset Formula $\sigma_{\eta}^{2}$
+\end_inset
+
+ only works at the national level, across areas this leads to some areas
+ where the total variance considerably larger than the true variance and
+ some where the variance is considerably smaller than the real variance.
+ 
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float table
+wide false
+sideways false
+status collapsed
+
+\begin_layout Plain Layout
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+Statistics for the area level variance of the model's linear fit
+\begin_inset CommandInset label
+LatexCommand label
+name "tab:var"
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\noindent
+\align center
+\begin_inset Tabular
+<lyxtabular version="3" rows="7" columns="4">
+<features tabularvalignment="middle">
+<column alignment="center" valignment="top">
+<column alignment="center" valignment="top">
+<column alignment="center" valignment="top">
+<column alignment="center" valignment="top">
+<row>
+<cell alignment="center" valignment="top" bottomline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" bottomline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\size small
+True 
+\begin_inset Formula $\mathrm{var\left[\mathit{x\beta}\right]}$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" bottomline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\size small
+UC 
+\begin_inset Formula $\mathrm{var\left[\mathit{\hat{y}_{a}}\right]}$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" bottomline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\size small
+CensusEB 
+\begin_inset Formula $\mathrm{var\left[\mathit{\mathit{\hat{y}_{a}}}\right]}$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\bar no
+\strikeout off
+\xout off
+\uuline off
+\uwave off
+\noun off
+\color none
+Min
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\bar no
+\strikeout off
+\xout off
+\uuline off
+\uwave off
+\noun off
+\color none
+0.374
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\bar no
+\strikeout off
+\xout off
+\uuline off
+\uwave off
+\noun off
+\color none
+0.074
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\bar no
+\strikeout off
+\xout off
+\uuline off
+\uwave off
+\noun off
+\color none
+0.374
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\bar no
+\strikeout off
+\xout off
+\uuline off
+\uwave off
+\noun off
+\color none
+Max
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\bar no
+\strikeout off
+\xout off
+\uuline off
+\uwave off
+\noun off
+\color none
+0.861
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\bar no
+\strikeout off
+\xout off
+\uuline off
+\uwave off
+\noun off
+\color none
+0.105
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\bar no
+\strikeout off
+\xout off
+\uuline off
+\uwave off
+\noun off
+\color none
+0.860
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\bar no
+\strikeout off
+\xout off
+\uuline off
+\uwave off
+\noun off
+\color none
+Mean
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\bar no
+\strikeout off
+\xout off
+\uuline off
+\uwave off
+\noun off
+\color none
+0.568
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\bar no
+\strikeout off
+\xout off
+\uuline off
+\uwave off
+\noun off
+\color none
+0.088
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\bar no
+\strikeout off
+\xout off
+\uuline off
+\uwave off
+\noun off
+\color none
+0.568
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\bar no
+\strikeout off
+\xout off
+\uuline off
+\uwave off
+\noun off
+\color none
+p25
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\bar no
+\strikeout off
+\xout off
+\uuline off
+\uwave off
+\noun off
+\color none
+0.448
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\bar no
+\strikeout off
+\xout off
+\uuline off
+\uwave off
+\noun off
+\color none
+0.084
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\bar no
+\strikeout off
+\xout off
+\uuline off
+\uwave off
+\noun off
+\color none
+0.448
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\bar no
+\strikeout off
+\xout off
+\uuline off
+\uwave off
+\noun off
+\color none
+p50
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\bar no
+\strikeout off
+\xout off
+\uuline off
+\uwave off
+\noun off
+\color none
+0.549
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\bar no
+\strikeout off
+\xout off
+\uuline off
+\uwave off
+\noun off
+\color none
+0.088
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\bar no
+\strikeout off
+\xout off
+\uuline off
+\uwave off
+\noun off
+\color none
+0.548
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" bottomline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\bar no
+\strikeout off
+\xout off
+\uuline off
+\uwave off
+\noun off
+\color none
+p75
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" bottomline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\bar no
+\strikeout off
+\xout off
+\uuline off
+\uwave off
+\noun off
+\color none
+0.682
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" bottomline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\bar no
+\strikeout off
+\xout off
+\uuline off
+\uwave off
+\noun off
+\color none
+0.091
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" bottomline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\bar no
+\strikeout off
+\xout off
+\uuline off
+\uwave off
+\noun off
+\color none
+0.682
+\end_layout
+
+\end_inset
+</cell>
+</row>
+</lyxtabular>
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+
+\size footnotesize
+Note: Simulations based on 1,000 populations generated as described in section
+ 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "sec:data"
+plural "false"
+caps "false"
+noprefix "false"
+
+\end_inset
+
+ and averaged to the area level.
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float table
+wide false
+sideways false
+status collapsed
+
+\begin_layout Plain Layout
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+Statistics for the area level total variance of the model 
+\begin_inset CommandInset label
+LatexCommand label
+name "tab:var2"
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\noindent
+\align center
+\begin_inset Tabular
+<lyxtabular version="3" rows="8" columns="6">
+<features tabularvalignment="middle">
+<column alignment="center" valignment="top">
+<column alignment="center" valignment="top">
+<column alignment="center" valignment="top">
+<column alignment="center" valignment="top">
+<column alignment="center" valignment="top">
+<column alignment="center" valignment="top">
+<row>
+<cell alignment="center" valignment="top" bottomline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" bottomline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+True
+\end_layout
+
+\end_inset
+</cell>
+<cell multicolumn="1" alignment="center" valignment="top" bottomline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Unit-context model
+\end_layout
+
+\end_inset
+</cell>
+<cell multicolumn="2" alignment="center" valignment="top" bottomline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+<cell multicolumn="1" alignment="center" valignment="top" bottomline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+CensusEB
+\end_layout
+
+\end_inset
+</cell>
+<cell multicolumn="2" alignment="center" valignment="top" bottomline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\size small
+\begin_inset Formula $\mathrm{var\left[\mathit{\mathit{y}_{a}}\right]}$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\size small
+\begin_inset Formula $\mathrm{var\left[\mathit{\hat{y}_{a}+\eta+e}\right]}$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\size small
+Ratio to true
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\size small
+\begin_inset Formula $\mathrm{var\left[\mathit{\mathit{\mathit{\hat{y}_{a}+\eta+e}}}\right]}$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\size small
+Ratio to true
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\bar no
+\strikeout off
+\xout off
+\uuline off
+\uwave off
+\noun off
+\color none
+Min
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\bar no
+\strikeout off
+\xout off
+\uuline off
+\uwave off
+\noun off
+\color none
+0.630
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\bar no
+\strikeout off
+\xout off
+\uuline off
+\uwave off
+\noun off
+\color none
+0.812
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\bar no
+\strikeout off
+\xout off
+\uuline off
+\uwave off
+\noun off
+\color none
+0.744
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\bar no
+\strikeout off
+\xout off
+\uuline off
+\uwave off
+\noun off
+\color none
+0.632
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\bar no
+\strikeout off
+\xout off
+\uuline off
+\uwave off
+\noun off
+\color none
+0.990
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\bar no
+\strikeout off
+\xout off
+\uuline off
+\uwave off
+\noun off
+\color none
+Max
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\bar no
+\strikeout off
+\xout off
+\uuline off
+\uwave off
+\noun off
+\color none
+1.119
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\bar no
+\strikeout off
+\xout off
+\uuline off
+\uwave off
+\noun off
+\color none
+0.844
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\bar no
+\strikeout off
+\xout off
+\uuline off
+\uwave off
+\noun off
+\color none
+1.298
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\bar no
+\strikeout off
+\xout off
+\uuline off
+\uwave off
+\noun off
+\color none
+1.118
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\bar no
+\strikeout off
+\xout off
+\uuline off
+\uwave off
+\noun off
+\color none
+1.008
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\bar no
+\strikeout off
+\xout off
+\uuline off
+\uwave off
+\noun off
+\color none
+Mean
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\bar no
+\strikeout off
+\xout off
+\uuline off
+\uwave off
+\noun off
+\color none
+0.826
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\bar no
+\strikeout off
+\xout off
+\uuline off
+\uwave off
+\noun off
+\color none
+0.826
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\bar no
+\strikeout off
+\xout off
+\uuline off
+\uwave off
+\noun off
+\color none
+1.026
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\bar no
+\strikeout off
+\xout off
+\uuline off
+\uwave off
+\noun off
+\color none
+0.826
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\bar no
+\strikeout off
+\xout off
+\uuline off
+\uwave off
+\noun off
+\color none
+1.000
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\bar no
+\strikeout off
+\xout off
+\uuline off
+\uwave off
+\noun off
+\color none
+p25
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\bar no
+\strikeout off
+\xout off
+\uuline off
+\uwave off
+\noun off
+\color none
+0.710
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\bar no
+\strikeout off
+\xout off
+\uuline off
+\uwave off
+\noun off
+\color none
+0.822
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\bar no
+\strikeout off
+\xout off
+\uuline off
+\uwave off
+\noun off
+\color none
+0.879
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\bar no
+\strikeout off
+\xout off
+\uuline off
+\uwave off
+\noun off
+\color none
+0.706
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\bar no
+\strikeout off
+\xout off
+\uuline off
+\uwave off
+\noun off
+\color none
+0.998
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\bar no
+\strikeout off
+\xout off
+\uuline off
+\uwave off
+\noun off
+\color none
+p50
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\bar no
+\strikeout off
+\xout off
+\uuline off
+\uwave off
+\noun off
+\color none
+0.804
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\bar no
+\strikeout off
+\xout off
+\uuline off
+\uwave off
+\noun off
+\color none
+0.826
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\bar no
+\strikeout off
+\xout off
+\uuline off
+\uwave off
+\noun off
+\color none
+1.025
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\bar no
+\strikeout off
+\xout off
+\uuline off
+\uwave off
+\noun off
+\color none
+0.807
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\bar no
+\strikeout off
+\xout off
+\uuline off
+\uwave off
+\noun off
+\color none
+1.000
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" bottomline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\bar no
+\strikeout off
+\xout off
+\uuline off
+\uwave off
+\noun off
+\color none
+p75
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" bottomline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\bar no
+\strikeout off
+\xout off
+\uuline off
+\uwave off
+\noun off
+\color none
+0.939
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" bottomline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\bar no
+\strikeout off
+\xout off
+\uuline off
+\uwave off
+\noun off
+\color none
+0.829
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" bottomline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\bar no
+\strikeout off
+\xout off
+\uuline off
+\uwave off
+\noun off
+\color none
+1.166
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" bottomline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\bar no
+\strikeout off
+\xout off
+\uuline off
+\uwave off
+\noun off
+\color none
+0.940
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" bottomline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\bar no
+\strikeout off
+\xout off
+\uuline off
+\uwave off
+\noun off
+\color none
+1.003
+\end_layout
+
+\end_inset
+</cell>
+</row>
+</lyxtabular>
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+
+\size footnotesize
+Note: Simulations based on 1,000 populations generated as described in section
+ 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "sec:data"
+plural "false"
+caps "false"
+noprefix "false"
+
+\end_inset
+
+ and averaged to the area level.
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+A poor fitting model in unit-level small area estimation thus leads to biased
+ estimates.
+ Figure 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "fig:bias-1"
+plural "false"
+caps "false"
+noprefix "false"
+
+\end_inset
+
+ illustrates how this is manifested across select poverty lines.
+ The absolute bias for a given area decrease as the ratio of model explained
+ variance to true variance for a given area gets close to 1.
+ Therefore, even if the use of empirical best methods guarantees that the
+ mean of the dependent variable of the model at the area level is unbiased,
+ because poverty is distribution dependent the inability of unit-context
+ models to approximate the full distribution at the area level leads to
+ biased poverty estimates.
+ 
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float figure
+wide false
+sideways false
+status collapsed
+
+\begin_layout Plain Layout
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+Empirical bias of Unit-Context models across select lines 
+\begin_inset CommandInset label
+LatexCommand label
+name "fig:bias-1"
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\noindent
+\align center
+\begin_inset Graphics
+	filename bias_lines_fig2.jpg
+	lyxscale 25
+	scale 25
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+
+\size footnotesize
+Note: Simulation based on 1,000 populations generated as described in section
+ 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "sec:data"
+plural "false"
+caps "false"
+noprefix "false"
+
+\end_inset
+
+.
+ Each line corresponds to one of the 100 areas.
+ The x-axis represents the percentile on which the poverty line falls on,
+ and the y-axis is the empirical bias.
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float figure
+wide false
+sideways false
+status collapsed
+
+\begin_layout Plain Layout
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+Empirical bias of Unit-Context models across select lines 
+\begin_inset CommandInset label
+LatexCommand label
+name "fig:bias-1-1"
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\noindent
+\align center
+\begin_inset Graphics
+	filename avg_bias_lines_fig3.jpg
+	lyxscale 25
+	scale 25
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+
+\size footnotesize
+Note: Simulation based on 1,000 populations generated as described in section
+ 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "sec:data"
+plural "false"
+caps "false"
+noprefix "false"
+
+\end_inset
+
+.
+ Each line corresponds to one of the 100 areas.
+ The x-axis represents the percentile on which the poverty line falls on,
+ and the y-axis is the empirical bias.
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Figure 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "fig:bias-1-1"
+plural "false"
+caps "false"
+noprefix "false"
+
+\end_inset
+
+ averages across all 99 poverty lines the bias from the model for each area.
+ This figure makes it more salient how bias is at its minimal point around
+ the point where the unit-context model's total variance is equal to the
+ true dependent variable's variance in that area.
+ Hence, estimates are biased for some areas more than for others.
+\end_layout
+
+\begin_layout Section
+Conclusions
+\end_layout
+
+\begin_layout Standard
+This paper demonstrates that the bias in unit-context models for small area
+ poverty estimation stems primarily from their inability to adequately capture
+ the full variance of welfare at the area level.
+ While these models may achieve unbiased estimates of mean transformed welfare
+ through empirical best prediction methods, they systematically fail to
+ replicate the true welfare distribution within areas, leading to biased
+ poverty estimates.
+\end_layout
+
+\begin_layout Standard
+The simulation results reveal several key insights:
+\end_layout
+
+\begin_layout Standard
+First, unit-context models typically explain only a small portion of the
+ total variance in welfare (
+\begin_inset Formula $R^{2}$
+\end_inset
+
+ ranging from 0.13 to 0.25) compared to traditional unit-level models (
+\begin_inset Formula $R^{2}$
+\end_inset
+
+ around 0.50).
+ This limited explanatory power arises because unit-context models rely
+ solely on area-level covariates, omitting household-level variation.
+ Adding more covariates to the unit-context model risks overfitting and
+ could lead to further bias, thus the solution is not aligned to adding
+ more data.
+ An approach similar to the one presented by 
+\begin_inset CommandInset citation
+LatexCommand citet
+key "wurz2022estimating"
+literal "false"
+
+\end_inset
+
+ could work, but not when using satellite derived data.
+\end_layout
+
+\begin_layout Standard
+Second, while the total variance at the national level matches the true
+ welfare variance through the estimation of area and household error components
+ (
+\begin_inset Formula $σ_{\eta}^{2}$
+\end_inset
+
+ and 
+\begin_inset Formula $\sigma_{e}^{2}$
+\end_inset
+
+), this compensation mechanism breaks down at the area level.
+ Some areas end up with significantly over- or under-estimated total variance,
+ leading to systematic bias in poverty estimates.
+\end_layout
+
+\begin_layout Standard
+Third, our analysis reveals that the magnitude of bias in poverty estimates
+ is directly related to how well the model's total variance matches the
+ true welfare variance in each area.
+ Areas where this ratio approaches 1 show minimal bias, while areas with
+ substantial variance mismatches exhibit larger biases.
+\end_layout
+
+\begin_layout Standard
+These findings have important implications for practitioners.
+ While unit-context models offer practical advantages in situations where
+ household-level census data is unavailable or outdated, their inherent
+ limitations in capturing welfare distributions should be carefully considered.
+ Users should be particularly cautious when interpreting poverty estimates
+ for areas where the model's variance differs substantially from the observed
+ welfare variance in survey data.
+ As noted by 
+\begin_inset CommandInset citation
+LatexCommand citet
+key "corral2023poverty"
+literal "false"
+
+\end_inset
+
+, area-level models such as the well known Fay Herriot model will outperform
+ unit-context models, when both use the same data.
+\end_layout
+
+\begin_layout Standard
+Future research might explore methods to improve the variance approximation
+ in unit-context models or develop diagnostic tools to identify areas where
+ these models are most likely to produce reliable estimates.
+ Additionally, investigating alternative approaches that better capture
+ within-area welfare distributions while maintaining the practical advantages
+ of unit-context models could prove valuable.
+\end_layout
+
+\begin_layout Standard
+\begin_inset Newpage pagebreak
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset CommandInset bibtex
+LatexCommand bibtex
+btprint "btPrintCited"
+bibfiles "References"
+options "apalike"
+
+\end_inset
+
+
+\end_layout
+
+\end_body
+\end_document
