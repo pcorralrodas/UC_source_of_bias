@@ -1,10 +1,11 @@
 set more off
 clear all
-global main    "C:\Users\WB378870\GitHub\UC_source_of_bias\"
+if (lower("`c(username)'")=="wb378870") global main    "C:\Users\WB378870\GitHub\UC_source_of_bias\"
+else global main "C:\Users\Paul Corral\Documents\GitHub\UC_source_of_bias\"
 global mdata    "$main\0.data" 
 global dboards "$main\4.other"
 
-cap set processors 4
+cap set processors 8
 
 /*
 Author: Paul Corral
@@ -127,6 +128,7 @@ between the true poverty rate and the estimate, and the squared difference.
 After 1000 simulations these are our empirical bias and MSE.
 */
 //Add random location effects and household errors
+tempfile elcompleto true h3ebn h3arean myPop
 forval Zim=1/`total_sim'{
 	use "$mdata\popX_source_of_bias.dta", clear
 	//random area effects
@@ -138,8 +140,8 @@ forval Zim=1/`total_sim'{
 	gen eps = rnormal(0,$sigmaeps)
 	//Y, normally distributed
 	egen double Y = rsum(XB eta_a eta_p eps)
-	tempfile myPop
-	save `myPop'
+	
+	save `myPop', replace
 	//Seed stage for simulations, changes after every iteration!
 	local seedstage `c(rngstate)'
 	preserve
@@ -150,8 +152,8 @@ forval Zim=1/`total_sim'{
 		gen var_Y = Y
 		gen mean_Y = Y
 		groupfunction [aw=hhsize], mean(true_* mean_Y) first(variance_XB) variance(var_Y) by(area)
-		tempfile true
-		save `true'
+		
+		save `true', replace
 	restore
     //Without transforming...CensusEB
     use `myPop', clear
@@ -177,8 +179,8 @@ forval Zim=1/`total_sim'{
 		rename var_eta eb_var_eta
 		gen eb_eps = `evar'
 		
-	tempfile h3ebn
-	save `h3ebn'
+	
+	save `h3ebn', replace
 
 	
 	//Obtain UC SAE, without transforming
@@ -202,8 +204,8 @@ forval Zim=1/`total_sim'{
 		groupfunction, mean(uc_fgt0_* var_eta uc_Y) var(uc_var_xb) by(area)		
 		rename var_eta uc_var_eta		
 		gen uc_eps = `evar'
-	tempfile h3arean
-	save `h3arean'	
+	
+	save `h3arean', replace	
 		
 	//Open true point estimates
 	use `true', clear
@@ -213,8 +215,9 @@ forval Zim=1/`total_sim'{
 	merge 1:1 area using `h3ebn' , keepusing(eb_*)
 		drop _m
 	gen sim = "`Zim'"
-	cap: append using `elcompleto'
-	tempfile elcompleto
-	save `elcompleto'	
+	if (`Zim'>1) append using `elcompleto'
+	save `elcompleto', replace	
+	
+	di as error "Sim #`Zim'"
 }
 save "$mdata\source_of_bias_in_mymodel.dta", replace
