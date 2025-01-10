@@ -125,7 +125,7 @@ k.org)
 \end_layout
 
 \begin_layout Date
-
+December, 2024
 \end_layout
 
 \begin_layout Abstract
@@ -1392,6 +1392,13 @@ name "tab:var"
 \end_layout
 
 \begin_layout Plain Layout
+\begin_inset VSpace defskip
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
 \noindent
 \align center
 \begin_inset Tabular
@@ -2034,7 +2041,7 @@ noprefix "false"
 \begin_inset Float table
 wide false
 sideways false
-status collapsed
+status open
 
 \begin_layout Plain Layout
 \begin_inset Caption Standard
@@ -2050,6 +2057,13 @@ name "tab:var2"
 
 \end_layout
 
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset VSpace defskip
 \end_inset
 
 

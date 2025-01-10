@@ -1240,7 +1240,7 @@ literal "false"
 \begin_inset Float figure
 wide false
 sideways false
-status collapsed
+status open
 
 \begin_layout Plain Layout
 \begin_inset Caption Standard
@@ -1268,7 +1268,7 @@ name "fig:bias"
 \begin_inset Graphics
 	filename Bias_fig1.jpg
 	lyxscale 25
-	scale 25
+	scale 35
 
 \end_inset
 
@@ -1386,6 +1386,13 @@ name "tab:var"
 
 \end_layout
 
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset VSpace defskip
 \end_inset
 
 
@@ -2050,6 +2057,13 @@ name "tab:var2"
 
 \end_layout
 
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset VSpace defskip
 \end_inset
 
 
@@ -3086,7 +3100,7 @@ name "fig:bias-1"
 \begin_inset Graphics
 	filename bias_lines_fig2.jpg
 	lyxscale 25
-	scale 25
+	scale 40
 
 \end_inset
 
@@ -3149,7 +3163,7 @@ name "fig:bias-1-1"
 \begin_inset Graphics
 	filename avg_bias_lines_fig3.jpg
 	lyxscale 25
-	scale 25
+	scale 40
 
 \end_inset
 
