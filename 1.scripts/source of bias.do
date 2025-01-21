@@ -3,7 +3,7 @@ clear all
 if (lower("`c(username)'")=="wb378870") global main    "C:\Users\WB378870\GitHub\UC_source_of_bias\"
 else global main "C:\Users\Paul Corral\Documents\GitHub\UC_source_of_bias\"
 global mdata    "$main\0.data" 
-global dboards "$main\4.other"
+global dboard "$main\4.other"
 
 cap set processors 8
 
