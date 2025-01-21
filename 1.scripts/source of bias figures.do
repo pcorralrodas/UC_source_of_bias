@@ -9,7 +9,7 @@ set processors 4
 use "$mdata\source_of_bias_in_mymodel.dta", clear
 
 // collapse to area level
-groupfunction, mean(eb_* uc_* true_* mean_Y variance_XB var_Y) by(area)
+groupfunction, mean(eb_* uc_* true_* mean_Y variance_XB var_Y e_y) by(area)
 
 forval z=1/99{
 	gen bias_uc_`z' = true_`z' - uc_fgt0_`z'
@@ -19,6 +19,12 @@ forval z=1/99{
 	gen abs_bias_eb_`z' = abs(bias_eb_`z')
 		lab var abs_bias_eb_`z' "Absolute bias for EB model (thold `z'%)"
 }
+
+gen bias_eb_W = e_y - eb_e_y
+gen bias_uc_W = e_y - uc_e_y
+
+gen abs_bias_eb_W = abs(e_y - eb_e_y)
+gen abs_bias_uc_W = abs(e_y - uc_e_y)
 
 drop eb_fgt0* uc_fgt0* true_*
 

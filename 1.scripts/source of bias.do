@@ -35,9 +35,6 @@ population instead of a sample. This should remove all other sources of bias.
 	global sigmaeta_area  = 0.15
 	//We have household specific errors
 	global sigmaeps   = 0.5
-	//Poverty line fixed at 26
-	global  pline  = 26
-	global lnpline = ln($pline)
 	//locals
 	local obsnum    = $numobs
 	local areasize  = $areasize
@@ -149,9 +146,10 @@ forval Zim=1/`total_sim'{
 		forval z=1/99{
 			gen true_`z' = Y<pline_`z' if !missing(Y)
 		}
-		gen var_Y = Y
+		gen var_Y  = Y
 		gen mean_Y = Y
-		groupfunction [aw=hhsize], mean(true_* mean_Y) first(variance_XB) variance(var_Y) by(area)
+		gen e_y    = exp(Y)
+		groupfunction [aw=hhsize], mean(true_* mean_Y e_y) first(variance_XB) variance(var_Y) by(area)
 		
 		save `true', replace
 	restore
@@ -174,7 +172,12 @@ forval Zim=1/`total_sim'{
 		
 		gen eb_var_xb = fit_xb 
 		gen eb_Y = fit_xb
-		groupfunction, mean(eb_fgt0_* var_eta eb_Y) var(eb_var_xb) by(area)
+		
+		//Predicted welfare
+		gen double eb_e_y = exp(fit_xb)*exp(0.5*var_eta)*exp(0.5*`evar')
+		
+		
+		groupfunction, mean(eb_fgt0_* var_eta eb_Y eb_e_y) var(eb_var_xb) by(area)
 		
 		rename var_eta eb_var_eta
 		gen eb_eps = `evar'
@@ -199,9 +202,14 @@ forval Zim=1/`total_sim'{
 		forval z=1/99{
 			gen double uc_fgt0_`z'  = normal((pline_`z' - fit_xb)/(sqrt(var_eta+`evar')))
 		}
+		
 		gen uc_var_xb = fit_xb 
 		gen uc_Y = fit_xb
-		groupfunction, mean(uc_fgt0_* var_eta uc_Y) var(uc_var_xb) by(area)		
+		
+		//Predicted welfare
+		gen double uc_e_y = exp(fit_xb)*exp(0.5*var_eta)*exp(0.5*`evar')
+		
+		groupfunction, mean(uc_fgt0_* var_eta uc_Y uc_e_y) var(uc_var_xb) by(area)		
 		rename var_eta uc_var_eta		
 		gen uc_eps = `evar'
 	
