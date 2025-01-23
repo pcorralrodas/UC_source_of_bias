@@ -46,6 +46,35 @@ lab var var_explained_eb "Share of total variance explained (EB)"
 	tabstat variance_XB uc_var_xb eb_var_xb, stat(min max mean p25 p50 p75)
 	//Table 2
 	tabstat var_Y tot_var_uc var_explained_uc tot_var_eb var_explained_eb, stat(min max mean p25 p50 p75)
+	
+	/*
+	   stats |  varian~B  uc_var~b  eb_var~b
+---------+------------------------------
+     min |  .3738439  .0745521  .3738614
+     max |  .8610497  .1061533  .8611119
+    mean |  .5683213  .0882996  .5683544
+     p25 |   .448494  .0842452  .4485162
+     p50 |  .5488867  .0882529   .548916
+     p75 |  .6821843  .0914306  .6822283
+----------------------------------------
+
+.         //Table 2
+.         tabstat var_Y tot_var_uc var_explained_uc tot_var_eb var_explained_eb, stat(min max mean p25 p50 p75)
+
+   stats |     var_Y  tot_va~c  var_ex~c  tot_va~b  var_ex~b
+---------+--------------------------------------------------
+     min |  .6316622  .8127387  .7439535  .6319045  .9975411
+     max |  1.119477  .8443398  1.294781  1.119155  1.003149
+    mean |  .8263428  .8264861  1.025601  .8263975  1.000069
+     p25 |  .7071158  .8224318   .879407  .7065593  .9992496
+     p50 |  .8076134  .8264395  1.023914  .8069591  1.000041
+     p75 |  .9399566  .8296171  1.166005  .9402714  1.000613
+------------------------------------------------------------
+
+	
+	
+	
+	*/
 
 
 preserve 

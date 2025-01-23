@@ -175,8 +175,7 @@ forval Zim=1/`total_sim'{
 		
 		//Predicted welfare
 		gen double eb_e_y = exp(fit_xb)*exp(0.5*var_eta)*exp(0.5*`evar')
-		
-		
+				
 		groupfunction, mean(eb_fgt0_* var_eta eb_Y eb_e_y) var(eb_var_xb) by(area)
 		
 		rename var_eta eb_var_eta
