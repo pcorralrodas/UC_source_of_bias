@@ -14,22 +14,27 @@ use "$mdata\source_of_bias_in_mymodel.dta", clear
 groupfunction, mean(eb_* uc_* true_* mean_Y variance_XB var_Y e_y) by(area)
 
 forval z=1/99{
-	gen bias_uc_`z' = true_`z' - uc_fgt0_`z'
-	gen bias_eb_`z' = true_`z' - eb_fgt0_`z'
-	gen abs_bias_uc_`z' = abs(bias_uc_`z')
+	gen double bias_uc_`z' = true_`z' - uc_fgt0_`z'
+	gen double bias_eb_`z' = true_`z' - eb_fgt0_`z'
+	gen double abs_bias_uc_`z' = abs(bias_uc_`z')
 		lab var abs_bias_uc_`z' "Absolute bias for UC model (thold `z'%)"
-	gen abs_bias_eb_`z' = abs(bias_eb_`z')
+	gen double abs_bias_eb_`z' = abs(bias_eb_`z')
 		lab var abs_bias_eb_`z' "Absolute bias for EB model (thold `z'%)"
 }
 
-gen bias_eb_W = e_y - eb_e_y
-gen bias_uc_W = e_y - uc_e_y
+gen double bias_eb_W = e_y - eb_e_y
+gen double bias_uc_W = e_y - uc_e_y
 
-gen abs_bias_eb_W = abs(e_y - eb_e_y)
-gen abs_bias_uc_W = abs(e_y - uc_e_y)
+gen double abs_bias_eb_W = abs(e_y - eb_e_y)
+gen double abs_bias_uc_W = abs(e_y - uc_e_y)
 
 drop eb_fgt0* uc_fgt0* true_*
 
+gen double bias_eb_Y =  eb_Y - mean_Y
+gen double bias_uc_Y =  uc_Y - mean_Y
+
+gen double abs_bias_eb_Y =  abs(eb_Y - mean_Y)
+gen double abs_bias_uc_Y =  abs(uc_Y - mean_Y)
 
 egen double tot_var_eb = rsum(eb_var_eta eb_var_xb eb_eps)
 egen double tot_var_uc = rsum(uc_var_eta uc_var_xb uc_eps)
@@ -100,8 +105,6 @@ replace method = "CensusEB" if regexm(variable,"eb")
 gen bias_abs = "Bias" if regexm(variable,"abs_")==0
 replace bias_abs = "Abs. Bias" if regexm(variable,"abs_")==1
 
+
 //Export to excel for dashboards - easier to produce figures.
 export excel using "$dboard\Bias_UC_EB.xlsx", sheet(sim1) first(var) sheetreplace
-
-
-
