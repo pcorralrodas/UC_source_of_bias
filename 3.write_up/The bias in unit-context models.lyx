@@ -95,7 +95,8 @@
 \begin_body
 
 \begin_layout Title
-The source of bias in unit-context models
+When Aggregation Misleads: Bias in Small Area Estimates of Poverty with
+ Aggregate Data
 \end_layout
 
 \begin_layout Author
@@ -118,15 +119,16 @@ h, and Isabel Molina for comments on an earlier draft.
 \end_layout
 
 \begin_layout Abstract
-This paper explores why poverty estimates from unit-context models exhibit
+This paper explores why small area poverty estimates from models at the
+ household level, but that only use aggregate data as covariates, exhibit
  systematic bias.
- The analysis demonstrates that this bias stems from these models' inability
+ The analysis demonstrates that this bias stems from the models' inability
  to fully capture between-household variation in welfare, as they rely solely
  on covariates aggregated at geographic levels.
- Through model-based simulations, I show that the bias in unit-context models
- is minimized when the empirical variability of simulated welfare based
- on the model is closest to the true empirical variance of welfare at the
- area level.
+ Through model-based simulations, I show that the bias in these models is
+ minimized when the empirical variability of simulated welfare based on
+ the model is closest to the true empirical variance of welfare at the area
+ level.
  The finding also has implications for bias in unit-level models.
 \end_layout
 
@@ -366,25 +368,35 @@ literal "false"
  note that relying on aggregate level data to model household-level welfare
  leads to first-order bias from back-transformation and second-order bias
  from using aggregate data.
- They note that using aggregate means instead of individual values introduces
- additional bias due to the convexity of the back-transformation function.
+ They note that using aggregate means as covariates instead of individual
+ values introduces additional bias due to the convexity of the back-transformati
+on function.
  
 \end_layout
 
 \begin_layout Standard
 The bias studied here is related to the poor model explanatory power of
- unit-context models.
+ unit-context models and is related to the bias noted by 
+\begin_inset CommandInset citation
+LatexCommand citet
+key "wurz2022estimating"
+literal "false"
+
+\end_inset
+
+.
  Because unit-context methods model transformed household-level welfare
- as a linear function of area-level covariates, only, these are unable to
+ as a linear function of area-level covariates only, these are unable to
  adequately account for between household variations in welfare.
  The simulations undertaken here show that areas where the variance of predicted
  welfare is aligned to the area's true variance of welfare are those that
  exhibit the lowest bias across the entire welfare distribution.
  This illustrates that under unit-level and unit-context models bias at
- the area level is a function of the dependent variable's mean and the variance
- of the linear fit.
- The former benefits from the use of EB methods but the latter is holy dependent
- on the auxiliary data at hand and how aligned it is to the population.
+ the area level is a function of the dependent variable's mean and the empirical
+ variance of the linear fit.
+ The dependent variable benefits from the use of EB methods but the empirical
+ variance is fully dependent on the auxiliary data at hand and how aligned
+ it is to the population in each area.
 \end_layout
 
 \begin_layout Standard
