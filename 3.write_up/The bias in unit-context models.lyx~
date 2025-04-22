@@ -95,8 +95,8 @@
 \begin_body
 
 \begin_layout Title
-When Aggregation Misleads: Bias in Small Area Estimates of Poverty with
- Aggregate Data
+When Aggregation Misleads: Bias in Unit-level Small Area Estimates of Poverty
+ with Aggregate Data
 \end_layout
 
 \begin_layout Author
@@ -396,7 +396,7 @@ literal "false"
  variance of the linear fit.
  The dependent variable benefits from the use of EB methods but the empirical
  variance is fully dependent on the auxiliary data at hand and how aligned
- it is to the population.
+ it is to the population in each area.
 \end_layout
 
 \begin_layout Standard
@@ -709,7 +709,7 @@ where
 \end_layout
 
 \begin_layout Standard
-Alternatively, because we assume normally distributed errors, the probability
+Alternatively, because normally distributed errors are assumed, the probability
  of being poor for any household 
 \begin_inset Formula $h$
 \end_inset
@@ -1307,11 +1307,11 @@ Assuming log linearity, the simulated nested error model (
 
 \begin_layout Standard
 Consequently, just like for poverty, the predicted welfare under unit-context
- models will be more biased the more different 
+ models will be more biased the greater the difference between 
 \begin_inset Formula $S_{y_{a}}^{2*}$
 \end_inset
 
- is from the true model's 
+ and the true model's 
 \begin_inset Formula $S_{y_{a}}^{2}$
 \end_inset
 
