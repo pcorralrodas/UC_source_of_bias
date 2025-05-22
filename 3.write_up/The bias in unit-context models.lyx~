@@ -95,7 +95,7 @@
 \begin_body
 
 \begin_layout Title
-When Aggregation Misleads: Bias in Unit-level Small Area Estimates of Poverty
+When Aggregation Misleads: Bias in Unit-Level Small Area Estimates of Poverty
  with Aggregate Data
 \end_layout
 
@@ -110,7 +110,15 @@ k.org).
  The author acknowledges financial support from the World Bank.
  Special thanks to Carlos Rodriguez-Castelan, Alexandru Cojocaru, Tara Vishwanat
 h, and Isabel Molina for comments on an earlier draft.
- 
+ Full replication package for the results presented in this paper may be
+ found in: 
+\begin_inset CommandInset href
+LatexCommand href
+target "https://github.com/pcorralrodas/UC_source_of_bias"
+
+\end_inset
+
+
 \end_layout
 
 \end_inset
@@ -120,16 +128,16 @@ h, and Isabel Molina for comments on an earlier draft.
 
 \begin_layout Abstract
 This paper explores why small area poverty estimates from models at the
- household level, but that only use aggregate data as covariates, exhibit
- systematic bias.
- The analysis demonstrates that this bias stems from the models' inability
- to fully capture between-household variation in welfare, as they rely solely
- on covariates aggregated at geographic levels.
- Through model-based simulations, I show that the bias in these models is
- minimized when the empirical variability of simulated welfare based on
- the model is closest to the true empirical variance of welfare at the area
- level.
- The finding also has implications for bias in unit-level models.
+ household level that only use aggregate data as covariates, exhibit systematic
+ bias.
+ The analysis demonstrates that this bias stems from the model's inability
+ to capture the complete between-household variation in welfare, as they
+ rely solely on covariates aggregated at geographic levels.
+ Through model-based simulations, the paper shows that the bias in these
+ models is minimized when the empirical variability of simulated welfare
+ based on the model is closest to the true empirical variance of welfare
+ at the area level.
+ This finding also has implications for bias in unit-level models.
 \end_layout
 
 \begin_layout Abstract
@@ -144,7 +152,8 @@ This paper explores why small area poverty estimates from models at the
 \series bold
 Key words:
 \series default
- Small area estimation; poverty mapping; satellite imagery
+ Small area estimation; poverty mapping; satellite imagery; census; official
+ statistics 
 \end_layout
 
 \begin_layout Standard
@@ -254,9 +263,9 @@ literal "false"
 \end_inset
 
 ).
- Unit-context, like unit-level models predict the welfare distribution first
- and then apply a threshold to determine the proportion of people below
- that threshold, but do so only using area-level characteristics.
+ Unit-context models, like unit-level models predict the welfare distribution
+ first and then apply a threshold to determine the proportion of people
+ below that threshold, but do so only using area-level characteristics.
 \end_layout
 
 \begin_layout Standard
@@ -283,7 +292,16 @@ literal "false"
 .
  In that work the authors present the aggregated estimates at the geographic
  level of representativeness and it is evident that across many areas the
- differences to direct estimates are considerable (see Figures 7 to 9).
+ differences compared to direct estimates are considerable (see Figures
+ 7 to 9 in 
+\begin_inset CommandInset citation
+LatexCommand citet
+key "edochie2024small"
+literal "false"
+
+\end_inset
+
+).
  Moreover, it can be seen that the majority of the estimates fall above
  the 45 degree line, suggesting an upward bias in the estimates.
  Using real world data, where samples are taken following methods implemented
@@ -311,7 +329,7 @@ literal "false"
 \end_inset
 
  (2022) are used to study the source of the method's bias.
- The bias studied here, goes beyond the potential bias of the method noted
+ The bias studied here goes beyond the potential bias of the method noted
  in 
 \begin_inset CommandInset citation
 LatexCommand citeauthor
@@ -321,7 +339,7 @@ literal "false"
 \end_inset
 
  (2021) which was related to a sampling issue.
- Instead, the bias noted in this paper, is related to the transformation
+ Instead, the bias noted in this paper is related to the transformation
  bias noted by 
 \begin_inset CommandInset citation
 LatexCommand citet
@@ -365,7 +383,7 @@ literal "false"
 
 \end_inset
 
- note that relying on aggregate level data to model household-level welfare
+ note that relying on aggregate-level data to model household-level welfare
  leads to first-order bias from back-transformation and second-order bias
  from using aggregate data.
  They note that using aggregate means as covariates instead of individual
@@ -387,14 +405,14 @@ literal "false"
 .
  Because unit-context methods model transformed household-level welfare
  as a linear function of area-level covariates only, these are unable to
- adequately account for between household variations in welfare.
+ adequately account for between-household variations in welfare.
  The simulations undertaken here show that areas where the variance of predicted
  welfare is aligned to the area's true variance of welfare are those that
  exhibit the lowest bias across the entire welfare distribution.
- This illustrates that under unit-level and unit-context models bias at
+ This illustrates that under unit-level and unit-context models, bias at
  the area level is a function of the dependent variable's mean and the empirical
  variance of the linear fit.
- The dependent variable benefits from the use of EB methods but the empirical
+ The dependent variable benefits from the use of EB methods, but the empirical
  variance is fully dependent on the auxiliary data at hand and how aligned
  it is to the population in each area.
 \end_layout
@@ -422,7 +440,8 @@ name "sec: method"
 \begin_layout Standard
 The model based small area estimation methods described in this paper are
  dependent on an assumed model.
- The nested error model used for small area was originally proposed by 
+ The nested error model used for small area estimation was originally proposed
+ by 
 \begin_inset CommandInset citation
 LatexCommand citet
 key "battese1988asa"
@@ -693,7 +712,7 @@ where
 \end_inset
 
 .
- This Monte Carlo procedure is often repeated 100 times in ordet to derive
+ This Monte Carlo procedure is often repeated 100 times in order to derive
  indicators under each simulated population and then average across to derive
  the final EB estimate.
  Notice how in the simulated vectors 
@@ -776,7 +795,7 @@ Traditionally, this process is approximated via Monte Carlo simulations
 
 \end_inset
 
- Within a given area, the only thing that varies across households are the
+ Within a given area, the only thing that varies across households is the
  covariates.
 \end_layout
 
@@ -971,7 +990,7 @@ where
 \begin_inset Formula $\eta_{sa}$
 \end_inset
 
-, are specified in this model at the area level, same as in Eq.
+, are specified in this model at the area level, the same as in Eq.
  
 \begin_inset CommandInset ref
 LatexCommand ref
@@ -1030,7 +1049,7 @@ A key feature of unit-context models is that the linear fit only explains
 \end_inset
 
 ) that is often quite lower than models that include household level covariates,
- and ranges between 0.15 to 0.25 in most instances.
+ and ranges between 0.15 and 0.25 in most instances.
  Define 
 \begin_inset Formula $S_{y}$
 \end_inset
@@ -1181,7 +1200,7 @@ noprefix "false"
 
 \end_inset
 
- implies that the bias of unit-context models will be larger in areas where
+, implies that the bias of unit-context models will be larger in areas where
  
 \begin_inset Formula $S_{y_{a}}^{2*}$
 \end_inset
@@ -1226,7 +1245,8 @@ status collapsed
 
 \begin_layout Plain Layout
 Under unit-level and unit-context models welfare is usually transformed
- to ensure errors are normally distributed to conform to the model's assumptions.
+ to ensure that errors are normally distributed to conform to the model's
+ assumptions.
 \end_layout
 
 \end_inset
@@ -1248,7 +1268,15 @@ literal "false"
 
  present evidence from simulations on how unit-context models will produce
  biased predictions of the back transformed dependent variable, i.e.
- equivalized income or expenditure (see figure 5.3).
+ equivalized income or expenditure (see figure 5.3 in 
+\begin_inset CommandInset citation
+LatexCommand citet
+key "corral2022guidelines"
+literal "false"
+
+\end_inset
+
+).
  
 \begin_inset CommandInset citation
 LatexCommand citet
@@ -1263,7 +1291,7 @@ literal "false"
 status collapsed
 
 \begin_layout Plain Layout
-Under unit-level models welfare is usually transformed to ensure errors
+Under unit-level models welfare is usually transformed to ensure that errors
  are normally distributed to conform to the model's assumptions.
 \end_layout
 
@@ -1580,7 +1608,7 @@ where the subscript
 \end_layout
 
 \begin_layout Standard
-In the following section I present a model-based simulation to illustrate
+In the following section, I present a model-based simulation to illustrate
  how 
 \begin_inset Formula $S_{y_{a}}^{2*}$
 \end_inset
@@ -1680,8 +1708,8 @@ literal "false"
 
  households per cluster is taken, and this sample is kept fixed across simulatio
 ns.
- Using a sample, it is possible to compare with estimators based on FH model
- (see 
+ Using a sample, it is possible to compare with estimators based on the
+ FH model (see 
 \begin_inset CommandInset citation
 LatexCommand citet
 key "corral2022guidelines,molina2022estimation,rao2015small,fay1979estimates"
@@ -1900,7 +1928,7 @@ literal "false"
 
 \begin_layout Standard
 The average difference between the true poverty indicator and the estimate
- across the 1,000 simulations represent the empirical bias for each area.
+ across the 1,000 simulations represents the empirical bias for each area.
  
 \end_layout
 
@@ -2023,7 +2051,7 @@ literal "false"
 
 \end_inset
 
- the bias is lower for some areas and for some percentiles.
+, the bias is lower for some areas and for some percentiles.
  
 \end_layout
 
@@ -3778,7 +3806,7 @@ noprefix "false"
 \end_inset
 
 ,ranges from 0.37 for the area with the lowest empirical variation to 0.86
- to the area with the largest, a similar range to the EB model.
+ for the area with the largest, a similar range to the EB model.
  However, the range for the unit-context model is much smaller, from 0.07
  to 0.1.
  Nevertheless, on average, the total empirical variation of the dependent
@@ -3872,7 +3900,7 @@ noprefix "false"
 
 \end_inset
 
- illustrates how this is manifested across select poverty lines.
+ illustrates how this is manifested across selected poverty lines.
  The absolute bias for a given area decrease as the ratio of model explained
  variance to true variance for a given area gets close to 1.
  Therefore, even if the use of empirical best methods guarantees that the
@@ -4134,9 +4162,9 @@ literal "false"
 
 \end_inset
 
- who through simulated illustrate that, in the presence of substantial model
- misspecifications, the unit context model shows similar performance to
- that of area-level models with known variances.
+ who through simulations illustrate that, in the presence of substantial
+ model misspecifications, the unit context model shows similar performance
+ to that of area-level models with known variances.
  Nevertheless, 
 \begin_inset CommandInset citation
 LatexCommand citet
@@ -4328,8 +4356,8 @@ literal "false"
 
 \end_inset
 
-, using simulated and real world data, area-level models such as the well
- known Fay Herriot model will outperform unit-context models.
+, using simulated and real world data, area-level models such as the well-known
+ Fay Herriot model will outperform unit-context models.
 \end_layout
 
 \begin_layout Standard
