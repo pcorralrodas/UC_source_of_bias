@@ -5,8 +5,14 @@ else global main "C:\Users\Paul Corral\Documents\GitHub\UC_source_of_bias\"
 global mdata    "$main\0.data" 
 global dboard "$main\4.other"
 
+//Sp groupfunction for indicators
+cap which sp_groupfunction
+if (_rc){
+	cap which github
+	if (_rc) net install github, from("https://haghish.github.io/github/")
+	github install pcorralrodas/sp_groupfunction
+}
 
-set processors 4
 
 use "$mdata\source_of_bias_in_mymodel.dta", clear
 

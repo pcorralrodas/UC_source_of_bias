@@ -21,6 +21,9 @@ Purpose of file is to test SAE model performance by imputing on to the
 population instead of a sample. This should remove all other sources of bias.
 */
 
+cap which groupfunction
+if (_rc) ssc install groupfunction
+
 *===============================================================================
 // Parameters for simulated data set
 *===============================================================================

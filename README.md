@@ -44,7 +44,7 @@ To run the simulations and figures:
 Open and run:
 
 ```stata
-do "source of bias.do"
+do "1.source of bias.do"
 ```
 
 This will:
@@ -58,13 +58,13 @@ This will:
 Once the simulation is complete, run:
 
 ```stata
-do "source of bias figures.do"
+do "2.source of bias figures.do"
 ```
 
 This will:
 - Load saved matrices
 - Reconstruct key tables from the paper
-- Output data to Excel for figure production in Tableau
+- Output data to Excel for figure production in **Tableau**
 
 ---
 
